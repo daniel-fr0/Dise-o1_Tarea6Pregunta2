@@ -17,6 +17,7 @@ class Tree:
 		self.root = Node(root)
 		self.tree = {root: []}
 		self.costs = {}
+		self.nodes = {root: self.root}
 
 	def p(self, u, v):
 		return self.costs[(u, v)]
@@ -28,8 +29,10 @@ class Tree:
 		if v in self.tree:
 			raise ValueError(f"Nodo de destino '{v}' ya existe en el árbol")
 
+		node = Node(v, self.nodes[u], cost)
+		self.nodes[v] = node
 		self.tree[v] = []
-		self.tree[u].append(Node(v, u, cost))
+		self.tree[u].append(node)
 
 		if cost is not None:
 			self.costs[(u, v)] = cost

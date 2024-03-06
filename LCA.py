@@ -85,12 +85,12 @@ if __name__ == "__main__":
 	t.add(5, 9)
 	print(t)
 	lca = LCA(t)
-	print(lca.query(4,9))
-	print(lca.query(8,9))
-	print(lca.query(6,7))
-	print(lca.query(4,5))
-	print(lca.query(2,5))
-	print(lca.query(2,3))
-	print(lca.query(8,7))
-	print(lca.query(7,8))
+	assert lca.query(4,9) == 2
+	assert lca.query(8,9) == 5
+	assert lca.query(6,7) == 3
+	assert lca.query(4,5) == 2
+	assert lca.query(2,5) == 2
+	assert lca.query(2,3) == 1
+	assert lca.query(8,7) == 1
+	assert lca.query(7,8) == 1
 
