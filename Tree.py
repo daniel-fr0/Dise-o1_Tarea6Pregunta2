@@ -16,6 +16,10 @@ class Tree:
 	def __init__(self, root):
 		self.root = Node(root)
 		self.tree = {root: []}
+		self.costs = {}
+
+	def p(self, u, v):
+		return self.costs[(u, v)]
 	
 	def add(self, u, v, cost=None):
 		if u not in self.tree:
@@ -26,6 +30,10 @@ class Tree:
 
 		self.tree[v] = []
 		self.tree[u].append(Node(v, u, cost))
+
+		if cost is not None:
+			self.costs[(u, v)] = cost
+			self.costs[(v, u)] = cost
 
 	def children(self, vertex):
 		yield from self.tree[vertex] if vertex in self.tree else []
