@@ -1,6 +1,7 @@
 from Tree import Tree
 
 class LCA:
+	# teniendo en cuenta n como el número de nodos del árbol
 	# el precondicionamiento toma tiempo O(n) y espacio O(n)
 	def __init__(self, tree: Tree):
 		# el arbol consiste en un grafo dirigido de listas de adyacencia
