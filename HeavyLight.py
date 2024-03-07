@@ -12,14 +12,20 @@ class HeavyLight:
 		self.forallST = []
 		self.existsST = []
 
+		# O(n) en tiempo y espacio, se calcula el tamaño y la profundidad de cada nodo
 		self.dfs(tree.root.key)
+		# O(n) en tiempo y espacio, se calculan las cadenas pesadas
 		self.hld(tree.root.key)
+		# O(n) en tiempo y espacio, se calculan el arbol de segmentos para el LCA
 		self.lca = LCA(tree)
 
+		# O(n) en tiempo y espacio, se calculan los arboles de segmentos para forall y exists
+		# esto recorre cada cadena y cada nodo una vez
 		for chain in self.chainList:
 			self.forallST.append(self.ForallST(chain))
 			self.existsST.append(self.ExistsST(chain))
 
+	# O(log n) en tiempo para consultas de HeavyLight decomposition
 	def forall(self, x, y):
 		chainX = self.chainID[x]
 		chainY = self.chainID[y]
@@ -30,6 +36,7 @@ class HeavyLight:
 
 		# si no, se busca el ancestro común y se evalua la consulta para cada cadena
 		ancestor = self.lca.query(x, y)
+
 		return self.crawl_forall(x, ancestor) and self.crawl_forall(y, ancestor)
 	
 	def crawl_forall(self, x, ancestor):
@@ -55,6 +62,7 @@ class HeavyLight:
 
 		return res
 	
+	# O(log n) en tiempo para consultas de HeavyLight decomposition
 	def exists(self, x, y):
 		chainX = self.chainID[x]
 		chainY = self.chainID[y]
@@ -99,6 +107,8 @@ class HeavyLight:
 
 		return self.size[vertex]
 	
+	# O(n) en tiempo y espacio, se calculan las cadenas pesadas
+	# esto recorre cada nodo una vez
 	def hld(self, vertex, chainID=None):
 		# si no se especifica la cadena, se crea una nueva
 		if chainID is None:
@@ -108,8 +118,6 @@ class HeavyLight:
 		# se asigna el nodo a la cadena y se guarda la cadena del nodo
 		self.chainID[vertex] = chainID
 		newNode = self.tree.nodes[vertex]
-		if len(self.chainList[chainID]) > 0 and newNode.parent != self.chainList[chainID][-1]:
-			raise ValueError(f"El nodo {newNode} no es hijo del último nodo de la cadena {self.chainList[chainID]}")
 		self.chainList[chainID].append(newNode)
 
 		# se busca el hijo con mayor tamaño
@@ -126,9 +134,6 @@ class HeavyLight:
 		for child in self.tree.children(vertex):
 			if child.key != heaviest:
 				self.hld(child.key)
-
-	def chain(self, node):
-		return self.chainList[self.chainID[node]]
 	
 	class ForallST:
 		def __init__(self, arr):
