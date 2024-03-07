@@ -1,6 +1,10 @@
 from Tree import Tree
 from LCA import LCA
 
+# HeavyLight: implementa la descomposición Heavy-Light
+# en un árbol y permite realizar consultas forall y exists
+# en tiempo O(log n) para cualquier par de nodos
+# pagando un costo de O(n) en tiempo y espacio de precondicionamiento
 class HeavyLight:
 	def __init__(self, tree):
 		self.tree = tree
@@ -20,7 +24,7 @@ class HeavyLight:
 		self.lca = LCA(tree)
 
 		# O(n) en tiempo y espacio, se calculan los arboles de segmentos para forall y exists
-		# esto recorre cada cadena y cada nodo una vez
+		# esto recorre todos los nodos
 		for chain in self.chainList:
 			self.forallST.append(self.ForallST(chain))
 			self.existsST.append(self.ExistsST(chain))
@@ -108,7 +112,7 @@ class HeavyLight:
 		return self.size[vertex]
 	
 	# O(n) en tiempo y espacio, se calculan las cadenas pesadas
-	# esto recorre cada nodo una vez
+	# esto recorre todos los nodos
 	def hld(self, vertex, chainID=None):
 		# si no se especifica la cadena, se crea una nueva
 		if chainID is None:
